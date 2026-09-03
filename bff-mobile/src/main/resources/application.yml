@@ -1,0 +1,21 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: bff-mobile
+
+core-service:
+  base-url: http://localhost:8080
+  api-key: "clave-interna-banco-xyz-2026"
+
+seguridad:
+  jwt:
+    secreto: "clave-secreta-canal-movil-banco-xyz-no-usar-en-produccion-2026"
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{45} - %msg%n"
+  level:
+    root: INFO
+    com.bancoxyz.bff.mobile: INFO

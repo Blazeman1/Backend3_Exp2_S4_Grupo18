@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bancoxyz</groupId>
+    <artifactId>banco-xyz-bff</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>banco-xyz-bff</name>
+    <description>
+        Backend for Frontend (BFF) para el Banco XYZ: un backend central (core-service) mas
+        tres Backend-for-Frontend independientes (bff-web, bff-mobile, bff-atm), cada uno con
+        autenticacion y formato de datos propios, segun el canal que atienden.
+    </description>
+
+    <!--
+        Este POM es el agregador (packaging=pom) del proyecto. Cada modulo hijo declara SU PROPIO
+        spring-boot-starter-parent (ver core-service/pom.xml, bff-web/pom.xml, etc.) en vez de que
+        este POM agregador sea a la vez el parent de Spring Boot. La razon es deliberada: la
+        estrategia de implementacion elegida (ver README.md, seccion "Estrategia de implementacion
+        de BFF") es la de BACKENDS INDEPENDIENTES por cada tipo de cliente -cuatro aplicaciones
+        Spring Boot completamente autonomas, cada una empaquetable y desplegable por separado, sin
+        depender de un build agregado para funcionar-. Este pom.xml raiz solo existe como
+        comodidad para compilar/instalar los cuatro modulos con un unico comando Maven durante el
+        desarrollo; en produccion, cada carpeta (core-service/, bff-web/, bff-mobile/, bff-atm/)
+        se construye, versiona y despliega de forma independiente.
+    -->
+    <modules>
+        <module>core-service</module>
+        <module>bff-web</module>
+        <module>bff-mobile</module>
+        <module>bff-atm</module>
+    </modules>
+
+</project>

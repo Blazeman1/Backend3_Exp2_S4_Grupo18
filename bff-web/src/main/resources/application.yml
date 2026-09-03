@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: bff-web
+
+core-service:
+  base-url: http://localhost:8080
+  api-key: "clave-interna-banco-xyz-2026"
+
+seguridad:
+  jwt:
+    # Solo un valor de demostracion academica; en produccion viviria en un gestor de secretos.
+    secreto: "clave-secreta-canal-web-banco-xyz-no-usar-en-produccion-2026"
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{45} - %msg%n"
+  level:
+    root: INFO
+    com.bancoxyz.bff.web: INFO
