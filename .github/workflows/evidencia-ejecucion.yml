@@ -1,0 +1,93 @@
+name: Evidencia de ejecucion - Banco XYZ BFF
+
+# Este workflow es la unica via de "ejecucion real" disponible durante el desarrollo de este
+# proyecto: el entorno de trabajo usado para escribir el codigo no tiene acceso a Maven Central
+# (bloqueado), por lo que ninguna dependencia se pudo descargar ni compilar localmente. GitHub
+# Actions si tiene acceso a Maven Central, asi que este workflow compila y EJECUTA de verdad los
+# cuatro servicios (core-service + bff-web + bff-mobile + bff-atm), llama a cada API con curl
+# real y guarda toda la salida como evidencia descargable (Actions > este run > Artifacts).
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Crear carpeta de evidencias
+        run: mkdir -p evidencias
+
+      - name: Compilar los 4 modulos (Maven multi-modulo)
+        run: |
+          set -o pipefail
+          mvn -B -DskipTests package | tee evidencias/evidencia01-build.log
+
+      - name: Iniciar core-service (backend generalizado, puerto 8080)
+        run: |
+          nohup java -jar core-service/target/core-service.jar > evidencias/evidencia02-core-service.log 2>&1 &
+          echo "Esperando a que core-service cargue los CSV y levante el puerto 8080..."
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null -H "X-Internal-Api-Key: clave-interna-banco-xyz-2026" http://localhost:8080/internal/cuentas/101; then
+              echo "core-service arriba."; exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::core-service no respondio a tiempo. Ver evidencia02-core-service.log"; exit 1
+
+      - name: Iniciar bff-web (puerto 8081)
+        run: |
+          nohup java -jar bff-web/target/bff-web.jar > evidencias/evidencia03-bff-web.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null -X POST http://localhost:8081/api/web/auth/login -H "Content-Type: application/json" -d '{"cuentaId":101,"nombre":"John Doe"}'; then
+              echo "bff-web arriba."; exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::bff-web no respondio a tiempo. Ver evidencia03-bff-web.log"; exit 1
+
+      - name: Iniciar bff-mobile (puerto 8082)
+        run: |
+          nohup java -jar bff-mobile/target/bff-mobile.jar > evidencias/evidencia04-bff-mobile.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null -X POST http://localhost:8082/api/mobile/auth/login -H "Content-Type: application/json" -d '{"cuentaId":101,"pin":"7373"}'; then
+              echo "bff-mobile arriba."; exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::bff-mobile no respondio a tiempo. Ver evidencia04-bff-mobile.log"; exit 1
+
+      - name: Iniciar bff-atm (puerto 8083)
+        run: |
+          nohup java -jar bff-atm/target/bff-atm.jar > evidencias/evidencia05-bff-atm.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null -X POST http://localhost:8083/api/atm/sesion -H "Content-Type: application/json" -d '{"numeroTarjeta":"4915000000000105","pin":"7665"}'; then
+              echo "bff-atm arriba."; exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::bff-atm no respondio a tiempo. Ver evidencia05-bff-atm.log"; exit 1
+
+      - name: Ejecutar el script de pruebas contra las 4 APIs reales
+        run: |
+          set -o pipefail
+          sudo apt-get update -y >/dev/null && sudo apt-get install -y jq >/dev/null
+          bash scripts/probar_apis.sh | tee evidencias/evidencia06-pruebas-apis.log
+
+      - name: Publicar evidencias como artefacto descargable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-ejecucion-bff
+          path: evidencias/*.log
+          retention-days: 30

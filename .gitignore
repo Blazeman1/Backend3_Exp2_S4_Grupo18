@@ -1,0 +1,7 @@
+target/
+*.class
+*.log
+!evidencias/.gitkeep
+.idea/
+*.iml
+.vscode/
