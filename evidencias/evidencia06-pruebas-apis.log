@@ -1,0 +1,717 @@
+
+=== 0. core-service NO debe responder sin la clave interna (principio central del BFF) ===
+GET /internal/cuentas SIN clave -> HTTP 403 (se espera 403)
+
+=== 0.1 core-service SI responde con la clave interna (uso exclusivo de los BFF) ===
+{
+  "cuentaId": 101,
+  "titular": "John Doe",
+  "tipo": "prestamo",
+  "edadTitular": 35,
+  "saldo": 10000.0,
+  "movimientos": [
+    {
+      "fecha": "2024-02-16",
+      "tipoMovimiento": "compra",
+      "monto": -100.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-02-19",
+      "tipoMovimiento": "compra",
+      "monto": 2000.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-01-07",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-07-16",
+      "tipoMovimiento": "retiro",
+      "monto": 2500.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-07-09",
+      "tipoMovimiento": "retiro",
+      "monto": -1000.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-10-16",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-03-22",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-06-03",
+      "tipoMovimiento": "deposito",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-09-25",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-12-26",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-02-04",
+      "tipoMovimiento": "depósito",
+      "monto": 2500.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-03-07",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-17",
+      "tipoMovimiento": "pago",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-10-06",
+      "tipoMovimiento": "deposito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-12-22",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-04-26",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-06-12",
+      "tipoMovimiento": "deposito",
+      "monto": 2000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-11-22",
+      "tipoMovimiento": "retiro",
+      "monto": 1000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-03-07",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-08-01",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-20",
+      "tipoMovimiento": "compra",
+      "monto": -100.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-04-08",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-17",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-30",
+      "tipoMovimiento": "deposito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-09-05",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-29",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-11-11",
+      "tipoMovimiento": "compra",
+      "monto": 1000.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-01-30",
+      "tipoMovimiento": "depósito",
+      "monto": 3000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-20",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-08-04",
+      "tipoMovimiento": "compra",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-01-09",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-07-20",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-11-23",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-28",
+      "tipoMovimiento": "depósito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-03",
+      "tipoMovimiento": "pago",
+      "monto": 1500.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-08-31",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-12",
+      "tipoMovimiento": "compra",
+      "monto": -500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-05-25",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-09-02",
+      "tipoMovimiento": "depósito",
+      "monto": 3000.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-09-30",
+      "tipoMovimiento": "deposito",
+      "monto": -500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-11-24",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-04-22",
+      "tipoMovimiento": "compra",
+      "monto": 2500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-01-25",
+      "tipoMovimiento": "deposito",
+      "monto": 1000.0,
+      "descripcion": "Ingreso extra"
+    }
+  ]
+}
+
+=== 1. BFF WEB: login (cuenta 101, titular 'John Doe') y consulta completa de la cuenta ===
+Token web obtenido: eyJhbGciOiJIUzI1NiJ9.eyJ...
+{
+  "cuentaId": 101,
+  "titular": "John Doe",
+  "tipoCuenta": "prestamo",
+  "edadTitular": 35,
+  "saldoActual": 10000.0,
+  "tasaInteresMensual": 0.025,
+  "interesProyectadoMensual": 250.0,
+  "totalMovimientos": 43,
+  "totalDepositos": 28000.0,
+  "totalRetiros": 10800.0,
+  "totalCompras": 12700.0,
+  "movimientos": [
+    {
+      "fecha": "2024-02-16",
+      "tipoMovimiento": "compra",
+      "monto": -100.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-02-19",
+      "tipoMovimiento": "compra",
+      "monto": 2000.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-01-07",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-07-16",
+      "tipoMovimiento": "retiro",
+      "monto": 2500.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-07-09",
+      "tipoMovimiento": "retiro",
+      "monto": -1000.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-10-16",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-03-22",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-06-03",
+      "tipoMovimiento": "deposito",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-09-25",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-12-26",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-02-04",
+      "tipoMovimiento": "depósito",
+      "monto": 2500.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-03-07",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-17",
+      "tipoMovimiento": "pago",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-10-06",
+      "tipoMovimiento": "deposito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-12-22",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-04-26",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-06-12",
+      "tipoMovimiento": "deposito",
+      "monto": 2000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-11-22",
+      "tipoMovimiento": "retiro",
+      "monto": 1000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-03-07",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-08-01",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-20",
+      "tipoMovimiento": "compra",
+      "monto": -100.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-04-08",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-17",
+      "tipoMovimiento": "retiro",
+      "monto": -100.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-30",
+      "tipoMovimiento": "deposito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-09-05",
+      "tipoMovimiento": "deposito",
+      "monto": 2500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-29",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-11-11",
+      "tipoMovimiento": "compra",
+      "monto": 1000.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-01-30",
+      "tipoMovimiento": "depósito",
+      "monto": 3000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-20",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-08-04",
+      "tipoMovimiento": "compra",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-01-09",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-07-20",
+      "tipoMovimiento": "retiro",
+      "monto": 2000.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-11-23",
+      "tipoMovimiento": "compra",
+      "monto": 1500.0,
+      "descripcion": "Compra en tienda"
+    },
+    {
+      "fecha": "2024-06-28",
+      "tipoMovimiento": "depósito",
+      "monto": 1500.0,
+      "descripcion": "Ingreso extra"
+    },
+    {
+      "fecha": "2024-04-03",
+      "tipoMovimiento": "pago",
+      "monto": 1500.0,
+      "descripcion": "Retiro parcial"
+    },
+    {
+      "fecha": "2024-08-31",
+      "tipoMovimiento": "deposito",
+      "monto": 3000.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-01-12",
+      "tipoMovimiento": "compra",
+      "monto": -500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-05-25",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-09-02",
+      "tipoMovimiento": "depósito",
+      "monto": 3000.0,
+      "descripcion": "Ingreso navideño"
+    },
+    {
+      "fecha": "2024-09-30",
+      "tipoMovimiento": "deposito",
+      "monto": -500.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-11-24",
+      "tipoMovimiento": "deposito",
+      "monto": -100.0,
+      "descripcion": "Movimiento sin descripcion registrada"
+    },
+    {
+      "fecha": "2024-04-22",
+      "tipoMovimiento": "compra",
+      "monto": 2500.0,
+      "descripcion": "Ingreso mensual"
+    },
+    {
+      "fecha": "2024-01-25",
+      "tipoMovimiento": "deposito",
+      "monto": 1000.0,
+      "descripcion": "Ingreso extra"
+    }
+  ]
+}
+
+=== 1.1 BFF WEB: historial de movimientos filtrado por tipo=deposito (interfaz compleja) ===
+[
+  {
+    "fecha": "2024-01-07",
+    "tipoMovimiento": "deposito",
+    "monto": 2500.0,
+    "descripcion": "Retiro parcial"
+  },
+  {
+    "fecha": "2024-10-16",
+    "tipoMovimiento": "deposito",
+    "monto": -100.0,
+    "descripcion": "Retiro parcial"
+  },
+  {
+    "fecha": "2024-06-03",
+    "tipoMovimiento": "deposito",
+    "monto": 2000.0,
+    "descripcion": "Compra en tienda"
+  },
+  {
+    "fecha": "2024-09-25",
+    "tipoMovimiento": "deposito",
+    "monto": 2500.0,
+    "descripcion": "Ingreso mensual"
+  },
+  {
+    "fecha": "2024-12-26",
+    "tipoMovimiento": "deposito",
+    "monto": -100.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-10-06",
+    "tipoMovimiento": "deposito",
+    "monto": 1500.0,
+    "descripcion": "Ingreso mensual"
+  },
+  {
+    "fecha": "2024-12-22",
+    "tipoMovimiento": "deposito",
+    "monto": 2500.0,
+    "descripcion": "Ingreso navideño"
+  },
+  {
+    "fecha": "2024-06-12",
+    "tipoMovimiento": "deposito",
+    "monto": 2000.0,
+    "descripcion": "Ingreso extra"
+  },
+  {
+    "fecha": "2024-03-07",
+    "tipoMovimiento": "deposito",
+    "monto": 3000.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-06-30",
+    "tipoMovimiento": "deposito",
+    "monto": 1500.0,
+    "descripcion": "Ingreso extra"
+  },
+  {
+    "fecha": "2024-09-05",
+    "tipoMovimiento": "deposito",
+    "monto": 2500.0,
+    "descripcion": "Ingreso extra"
+  },
+  {
+    "fecha": "2024-04-29",
+    "tipoMovimiento": "deposito",
+    "monto": 3000.0,
+    "descripcion": "Ingreso extra"
+  },
+  {
+    "fecha": "2024-06-20",
+    "tipoMovimiento": "deposito",
+    "monto": -100.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-08-31",
+    "tipoMovimiento": "deposito",
+    "monto": 3000.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-05-25",
+    "tipoMovimiento": "deposito",
+    "monto": -100.0,
+    "descripcion": "Ingreso mensual"
+  },
+  {
+    "fecha": "2024-09-30",
+    "tipoMovimiento": "deposito",
+    "monto": -500.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-11-24",
+    "tipoMovimiento": "deposito",
+    "monto": -100.0,
+    "descripcion": "Movimiento sin descripcion registrada"
+  },
+  {
+    "fecha": "2024-01-25",
+    "tipoMovimiento": "deposito",
+    "monto": 1000.0,
+    "descripcion": "Ingreso extra"
+  }
+]
+
+=== 1.2 BFF WEB: un token valido NO puede consultar la cuenta de otra persona (autorizacion) ===
+GET /api/web/cuentas/105 con token de la cuenta 101 -> HTTP 403 (se espera 403)
+
+=== 2. BFF MOVIL: login (cuenta 101, PIN determinista) y resumen liviano ===
+Token movil obtenido: eyJhbGciOiJIUzI1NiJ9.eyJ...
+{
+  "saldo": 10000.0,
+  "tipo": "prestamo",
+  "ultimosMovimientos": [
+    {
+      "fecha": "2024-12-26",
+      "tipo": "deposito",
+      "monto": -100.0
+    },
+    {
+      "fecha": "2024-12-22",
+      "tipo": "deposito",
+      "monto": 2500.0
+    },
+    {
+      "fecha": "2024-11-24",
+      "tipo": "deposito",
+      "monto": -100.0
+    }
+  ]
+}
+(Comparar el tamano de esta respuesta con la de BFF WEB del paso 1: no trae titular, edad ni historial completo)
+
+=== 3. BFF CAJERO: apertura de sesion con tarjeta+PIN (cuenta 105, 'Steve Rogers') ===
+{
+  "sessionToken": "0b9d2b25-8aaf-4c12-bddb-624e89c8d94e",
+  "expiraEnSegundos": 120,
+  "cuentaId": 105
+}
+
+=== 3.1 BFF CAJERO: consulta de saldo (respuesta minima, sin nombre ni historial) ===
+{
+  "saldoDisponible": 10000.0
+}
+
+=== 3.2 BFF CAJERO: retiro de $1.000 (operacion critica) ===
+{
+  "retiroExitoso": true,
+  "montoRetirado": 1000.0,
+  "saldoDisponible": 9000.0
+}
+
+=== 3.3 BFF CAJERO: la sesion se invalida tras el retiro (debe fallar con HTTP 401) ===
+GET /api/atm/cuentas/105/saldo reusando la sesion ya usada -> HTTP 401 (se espera 401)
+
+=== 3.4 BFF CAJERO: un retiro que excede el limite maximo por operacion debe rechazarse ===
+{
+  "error": "El monto solicitado excede el limite maximo de retiro por operacion ($500000.0)."
+}
+
+=== Fin de las pruebas ===
