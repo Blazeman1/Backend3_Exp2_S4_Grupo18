@@ -27,8 +27,8 @@ public class BffMobileApplication {
         // Timeouts mas agresivos que en bff-web: una app movil en una red celular inestable
         // no deberia dejar al usuario esperando una respuesta que igual va a descartar.
         return builder
-                .connectTimeout(Duration.ofSeconds(3))
-                .readTimeout(Duration.ofSeconds(5))
+                .setConnectTimeout(Duration.ofSeconds(3))
+                .setReadTimeout(Duration.ofSeconds(5))
                 .build();
     }
 }

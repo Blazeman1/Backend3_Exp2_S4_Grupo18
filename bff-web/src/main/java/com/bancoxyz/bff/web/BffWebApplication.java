@@ -28,8 +28,8 @@ public class BffWebApplication {
         // Timeouts generosos: el canal web tolera respuestas algo mas lentas a cambio de
         // recibir el detalle completo (historial de movimientos sin paginar en el peor caso).
         return builder
-                .connectTimeout(Duration.ofSeconds(5))
-                .readTimeout(Duration.ofSeconds(10))
+                .setConnectTimeout(Duration.ofSeconds(5))
+                .setReadTimeout(Duration.ofSeconds(10))
                 .build();
     }
 }

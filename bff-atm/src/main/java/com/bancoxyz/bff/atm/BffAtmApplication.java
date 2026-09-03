@@ -28,8 +28,8 @@ public class BffAtmApplication {
         // Timeouts cortos y estrictos: una operacion critica de dinero en efectivo no debe
         // quedar "colgada" indefinidamente esperando al backend generalizado.
         return builder
-                .connectTimeout(Duration.ofSeconds(3))
-                .readTimeout(Duration.ofSeconds(5))
+                .setConnectTimeout(Duration.ofSeconds(3))
+                .setReadTimeout(Duration.ofSeconds(5))
                 .build();
     }
 }
